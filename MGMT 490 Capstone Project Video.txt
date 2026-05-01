@@ -1,5 +1,3 @@
-(Transcribed by TurboScribe. Go Unlimited to remove this message.)
-
 Hi, my name is Anthony Petrescu and this is my capstone project for Management 490. And what I've created is a macro-driven value optimizer, what I call MDVO. So really the core idea behind this application is something called a multi-step investment pipeline. 
 
 It takes three distinct financial tools. One, a macroeconomic scenario engine. Two, a DCF valuation screener. 
@@ -121,5 +119,3 @@ So to summarize, MTVO integrates three financial components, macroeconomic scena
 That's the main thing that I've added versus all of my other projects is I'm adding this third tool on top of valuation engine and portfolio construction. So we're able to demonstrate that live on the pipeline sensitivity tab and actually adjust macro parameters as you've even seen throughout this demo. So I have this code on my GitHub. 
 
 I actually have a layout for the driver framework, how I used that and implemented that into a process of creating this model, as well as an AI disclosure of just some of the tools that I use to be able to create a model like this, what kinds of things that I utilize AIs help for, what kind of testing do I do on my own, and how do I implement my own kind of unique ideas into this model. So feel free to look over that, re-watch the video, read the posts that I'll be putting up, and thank you for watching.
-
-(Transcribed by TurboScribe. Go Unlimited to remove this message.)
