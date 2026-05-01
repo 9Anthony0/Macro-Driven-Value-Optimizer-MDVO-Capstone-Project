@@ -1,0 +1,125 @@
+(Transcribed by TurboScribe. Go Unlimited to remove this message.)
+
+Hi, my name is Anthony Petrescu and this is my capstone project for Management 490. And what I've created is a macro-driven value optimizer, what I call MDVO. So really the core idea behind this application is something called a multi-step investment pipeline. 
+
+It takes three distinct financial tools. One, a macroeconomic scenario engine. Two, a DCF valuation screener. 
+
+And three, a mean variance portfolio optimizer. The latter two being projects that I've actually worked on before. It chains those together so that a single macro assumption at the top cascades all the way down through valuations into the final portfolio application.
+
+So the defining feature and what I'll demonstrate today is also cross-component sensitivity. So if I change something like the risk-free rate by even 25 basis points, it changes every stock's whack, which changes their intrinsic values, changes the stocks that pass the screen, and then it also changes the portfolio weights for each stock. So let me show you how that works. 
+
+The first tab we're at is this overview, right? And this app is primarily just built in Python using Streamlit, Plotly for interactive charts, and even just SciPy for optimization. It's organized into these four different tabs. Again, the first that we're on being the dashboard overview, which is just kind of an executive summary showing the inputs, key valuation metrics, so on and so forth.
+
+The second being valuation engine. This is kind of the DCF component. Again, a project I've worked on in the past. 
+
+There's full and filtered stock tables and implied alpha bar charts, as well as a whack sensitivity map. The third tab being folio construction, as we can see. It's just a mean variance optimizer. 
+
+It shows allocation pie chart, efficient frontier, also a Monte Carlo simulation, as well as a few other characteristics. And then the last tab we actually have is pipeline sensitivity. So this is kind of a new piece that I've added for this capstone, which directly demonstrates cross-component sensitivity, tracing how a change in something like the risk-free rate can actually ripple through to the whack, intrinsic value, and portfolio weight for every stock.
+
+As you can see on the left, we have a bunch of global inputs. So if we look at the sidebar, we have scenario presets, and we have five different presets. As you can see, we have a bull market, base case, recession, stagflation, and tech boot. 
+
+These are going to change the macro parameters that we'll talk about if we wanted to select them. So for example, if I selected the recession, it's going to update everything, changing the macro parameters like risk-free rate to 2%, equity risk premium, 7%, so on and so forth. So the risk-free rate is just going to range from 2% to 8%, and it just represents the yield on a 10-year treasury bond, which feeds into the CAPM. 
+
+We have the equity risk premium, which ranges from 3% to 8%. It's just kind of an excess return investor demand for holding equities, and it multiplies with beta in the CAPM formula. Then we have sector growth modifiers. 
+
+This ranges from 0.5 to 2. It's a multiple applied to each stock's baseline revenue growth. At one, we're just using the stock's actual estimated growth at 0.5, simulating pessimistic growth expectations, and then vice versa. At two, we're modeling an expansion. 
+
+And lastly, we have an overvaluation filter. This threshold just controls which stocks pass from the valuation into portfolio construction. So at negative 20%, we exclude any stock whose intrinsic value is more than 20% below its market price, and this is just kind of for the screening step. 
+
+The next part we have is portfolio strategy. So I have five different pieces, maximizing Sharpe ratio, minimizing risk, maximizing return, risk parity, which is equalizing risk contribution across positions, and then equal weight just means saying simple one over N. So there's all the strategies we can select through when we're actually creating a portfolio. And then lastly, we have for sec class, we have max position percentage, which just kind of caps out any single stock at a percent weight it can hold. 
+
+And lastly, stock universe. So we have custom tickers that we can apply in the universe. So we have, for example, right now, Apple, Microsoft, Google, we can add different tickers, remove different tickers, or we can just stay with the simple baseline that I've constructed with this model to start off with. 
+
+So I'll change back to this base case, and let's go over some of these dashboards. So the first tab we're at is just executive summary. It's called dashboard overview. 
+
+As you can see, we have all of this macro environment input here, right? It's under this macro environment, risk free equity, risk premium, so on and so forth. And we even get to see regime. So we're in a neutral environment. 
+
+Below that, we have key outputs, right? We see average alpha across filtered stocks. So this is just average percentage by which DCF intrinsic value exceeds the market price for stocks passed through the screen. We also have average WAC percentage, just the mean weighted average cost capital across all 10 stocks. 
+
+If the stocks pass, just how many out of, you know, so, you know, we have 10 stocks again in this simple baseline. And you can see in this base case, we have six of 10 that have passed through our overvaluation filter. And lastly, the portfolio sharp value. 
+
+On the left here, we can see filtered stock universe. So this is a table showing every stock that passed through their WAC intrinsic value, market price, implied alpha, so on and so forth. And on the right, we actually see what I like to call allocation donut. 
+
+So this just shows optimized portfolio weights with the sharp value in the middle of that donut. So we can actually move on to this next tab. This is called an overvaluation engine. 
+
+Again, it's a project I've worked on before with a DCF valuation component. So what I worked on in a first project. So how DCF works is for each stock actually calculate the weighted average cost of capital using the cap-out model. 
+
+So I calculate cost of equity, which is just risk free rate plus beta multiplied by equity risk premium. And then also calculate WAC, which is equal to that cost of equity times one minus the debt ratio, plus the cost of the debt multiplied by one minus tax rate, and then multiplied by debt ratio. So those are just quick calculations. 
+
+And those can be searched up or you can slow down the video if you want to go over those again. But after that, what I end up doing is I run five-year discounted cash flow. So I project free cash flow forward using adjusted growth rate. 
+
+That's the stock's baseline growth rate multiplied by the sector growth rate modifier that we have here. After year five, I calculate terminal value using the Gordon growth model to 2.5% perpetual growth rate. Discount everything back to the WAC to get enterprise value, end up subtracting that debt and divide by shares, intrinsic value per share. 
+
+So those are just some of the calculations that go into this. Implied alpha ends up being the percent difference between that intrinsic value and the market price. So positive alpha, as you can see, will mean that the stock is undervalued according to the model.
+
+You can see that if we scroll down to this alpha bar chart. So we see the six stocks that are undervalued. They have a positive alpha percentage. 
+
+And we see four stocks that aren't, which are obviously the four that did not make it past the screening. If we see, so it's the green bars will just mean it's undervalued. Red bars will be overvalued, essentially. 
+
+And we scroll down, we'll see this WAC sensitivity heat map. If I select something like Apple, which we're already at, we'll see Apple's intrinsic value for every combination of risk rate and equity risk premium. So the color gradient runs from red, which is a low intrinsic value in high discount rates, destroy value, all the way to green, a high intrinsic value under low discount rates. 
+
+You can see that DCF is extremely sensitive, right? Any of these assumptions at 2% RF and 2% ERP, Apple's IV is, or 3% ERP, we see Apple's IV is really high. However, at an RF of 8% and ERP of 8%, we see that it collapses. And this is a key limitation that we'll discuss at the end of this demo. 
+
+But we can move on to this next tab, which is portfolio construction. This is part of another project that I ended up doing. And what I've added actually is risk contribution analysis and Monte Carlo simulation to this versus my last project. 
+
+So we'll see at the top, we have three key metrics, expected return, volatility, and Sharpe ratio. However, if we look at this pie chart, we have again, the donut, but we also have the efficient frontier. What this is, is it's a curved line showing optimal risk return trade-off.
+
+We have this gold star, marks our optimal portfolio. Purple dots are each individual asset, as we can see. And we can also see our portfolio sits well above individual stocks.
+
+And that kind of just shows that diversification is actually at work, which is something you want in a portfolio. But how exactly do these components connect? Well, expected returns are fed into this optimizer as implied alpha values from the DCF model in tab two. There's a covariance matrix that's built from each stock's beta and separate correlations. 
+
+So optimizer doesn't use historical returns. It uses valuation applied returns from step two. And this is kind of a core integration. 
+
+DCF outputs become the optimizer's input, as we do with these tabs. We're moving from one to another, one input being another output. If we look at these detailed weights, we'll see another additional component. 
+
+So we see a risk contribution, which shows each stock's percentage contribution to total portfolio risk. So even though PG has, let's say, 40% weight, it might contribute 25% of the risk because it's a low beta. This kind of helps us understand where risk is concentrated in our portfolio. 
+
+And this last piece we have here is a Monte Carlo simulation. So what this ends up doing is this runs 1,000 simulated portfolio paths over a configurable horizon. The green line is the median outcome. 
+
+And what we use is geometric Brownian motion. So the blue shaded bands that push out show 5th to 95th percentile ranges and the 25th to 75th percentile range. And below, you'll actually see the median final value, probability of loss, and the average maximum drawdown. 
+
+So this gives a probabilistic view of outcomes rather than just point estimates. Now let's move on to pipeline strategy. So this is kind of the additional capstone piece that I've implemented in this project. 
+
+This demonstrates how a single input change cascades through an entire pipeline. So tables will compare every stock's WAC, intrinsic value, at a basic risk-free rate of 3% versus the current setting of 4.25% that we have. And we have delta columns that show that change. 
+
+If we look at the single stock cascade, again, we're looking at Apple. We'll see that the risk-free rate, again, went from 3% to 4.25%. We see a 4.25% percent increase. But then we also see all these others. 
+
+We see WAC, intrinsic value, weight. And we see that 0.8% increase given the risk-free rate change. And then also the intrinsic value decreasing a percentage. 
+
+We actually don't see a change in weight, which if we switched our parameters a little bit more, we might end up seeing a change in weight for Apple. And then we can also see a waterfall chart that will visualize this cascade just so you can see it and really realize the domino effect. So let's say we wanted to switch the risk-free rate to 6. We would get a different WAC percentage, different intrinsic value. 
+
+But we can also see that our weight might stay the same. So we can adjust these macro parameters in order to see how these values and potentially also weight as well might change. Now let's go back to the dashboard.
+
+We can also see that fewer stocks might be passed through the screening if the average alpha drops. So if we adjust this equity risk premium, we see that we're at a highest regime. And now we have less stocks that end up passing. 
+
+So we can see that even just one slider change at the macro level can ripple through and change the rest of our portfolio construction values from there. But a big thing I want to talk about are limitations. These are really important.
+
+Every model has limitations. And it's also important to be transparent about them, especially the ones that I have in mind. The first is DCF model simplicity. 
+
+So I'm using a single-stage constant growth DCF. And reality analysts will use multi-stage models with different growth rates for different periods. My terminal value assumes perpetual growth at 2.5%, which can dominate valuation. 
+
+Sometimes 60% to 70% of the intrinsic value comes from the terminal value alone. So this makes the model very sensitive to the terminal growth assumption. Second is the covariance matrix I have is synthetic. 
+
+I'm building it from betas and assumed sector correlations rather than from actual historical return statement. This means my efficient frontier is an approximation. And a production system normally would use three to five years of daily returns to estimate through covariance structure. 
+
+Thirdly, we use a single factor CAPM. I'm using just classic CAPM. Professional quant teams will use multi-factor models like the Fama French three-factor or five-factor, which account for other things size, value, profitability, et cetera. 
+
+Fourth, we have compounding errors. So because the pipeline is sequential, any step and step one's macro assumptions can get amplified through other steps like step two valuation and into the optimization. So if ERP estimate is off by even 1%, every downstream output shifts. 
+
+And lastly, static financials. The default stock data uses point-in-time financials. When using custom tickers via Y Finance, we get more current data. 
+
+We're still just getting a snapshot, not really a real-time feed. So how would a professional actually use this? Portfolio manager at a mid-size asset manager use MTVO as a scenario analysis and screening tool. First, they load current market environment, maybe set the risk rate to match 10-year treasury yield, and ERP to their firm's house view. 
+
+And then they'd run the DCF screen to identify which stocks in their coverage universe appear undervalued under those assumptions. Applied alpha gives them a quick rank ordering, and they can construct an optimal portfolio. But what's even better about this for that group is the revalues in scenario stress testing. 
+
+They can ask questions like, what if the Fed raises rates by 100 base points? Which of our holdings become overvalued? How does our optimal allocation shift? The pipeline sensitivity tab answers all of those questions for them. I really want to be clear. This tool supplements fundamental analysis.
+
+It doesn't replace reading like 10-K filings or even understanding competitive dynamics. It forces systematic thinking about how macroeconomic assumptions cascade through valuations into portfolio decisions. And that structured thinking process is what really separates disciplined and smart investing from just guesswork. 
+
+So to summarize, MTVO integrates three financial components, macroeconomic scenario engine, a DCF valuation screener, and a mean variance portfolio optimizer into a unified pipeline where every assumption is traceable from input to output. I've also added every risk contribution analysis and Monte Carlo simulation as additional analytical tools. The key innovation is cross-component sensitivity. 
+
+That's the main thing that I've added versus all of my other projects is I'm adding this third tool on top of valuation engine and portfolio construction. So we're able to demonstrate that live on the pipeline sensitivity tab and actually adjust macro parameters as you've even seen throughout this demo. So I have this code on my GitHub. 
+
+I actually have a layout for the driver framework, how I used that and implemented that into a process of creating this model, as well as an AI disclosure of just some of the tools that I use to be able to create a model like this, what kinds of things that I utilize AIs help for, what kind of testing do I do on my own, and how do I implement my own kind of unique ideas into this model. So feel free to look over that, re-watch the video, read the posts that I'll be putting up, and thank you for watching.
+
+(Transcribed by TurboScribe. Go Unlimited to remove this message.)
