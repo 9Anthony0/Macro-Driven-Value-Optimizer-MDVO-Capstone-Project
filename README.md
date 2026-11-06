@@ -2,7 +2,7 @@
 
 A three-stage investment pipeline where one macro assumption flows all the way down to a portfolio. Change the risk-free rate by 25 basis points and you can watch it move every stock's WACC, then its intrinsic value, then which stocks pass the screen, then the final portfolio weights.
 
-<!-- LIVE DEMO: add your Streamlit link here, e.g. **[Try the live app](https://your-app.streamlit.app)** -->
+🚀 **[Try the live app](https://petrescu-mdvo.streamlit.app)**
 
 📝 **Write-up:** [Cascading Alpha: Bridging the Gap Between Macro Scenarios and Stock Selection](https://9numbers0.substack.com/p/cascading-alpha-bridging-the-gap)
 
@@ -41,8 +41,8 @@ It's meant as a scenario and screening tool that forces systematic thinking abou
 
 ## Run it locally
 ```bash
-cd "MGMT490 Capstone project"
 pip install -r requirements.txt
+cd "MGMT490 Capstone project"
 streamlit run app.py
 ```
 
